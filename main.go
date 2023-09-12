@@ -1,6 +1,7 @@
 package ginErrorHandler
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,6 +23,7 @@ func GlobalErrorHandler(customErrorParser CustomParserType) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		// Iterate through Gin errors and convert them to your custom Error type
+		fmt.Print("custom handler works")
 		for _, ginErr := range c.Errors {
 			customErr := &Error{
 				Err:  ginErr.Err,
