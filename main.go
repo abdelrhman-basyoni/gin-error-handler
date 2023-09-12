@@ -1,37 +1,22 @@
 package ginErrorHandler
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-type ErrorType uint64
-type Error struct {
-	Err  error
-	Type ErrorType
-	Meta any
-}
-
-type ErrorMsgs []*Error
-
-type CustomParserType func(errors ErrorMsgs) string
+type CustomParserType func(errors []string) []string
 
 func GlobalErrorHandler(customErrorParser CustomParserType) gin.HandlerFunc {
-	var messages ErrorMsgs
+	var messages []string
 
 	return func(c *gin.Context) {
 		// Iterate through Gin errors and convert them to your custom Error type
 		c.Next()
-		fmt.Print("custom handler works")
+
 		for _, ginErr := range c.Errors {
-			customErr := &Error{
-				Err:  ginErr.Err,
-				Type: ErrorType(ginErr.Type),
-				Meta: ginErr.Meta,
-			}
-			messages = append(messages, customErr)
+			messages = append(messages, ginErr.Error())
 		}
 
 		errorsList := customErrorParser(messages)
