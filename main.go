@@ -23,6 +23,7 @@ func GlobalErrorHandler(customErrorParser CustomParserType) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		// Iterate through Gin errors and convert them to your custom Error type
+		c.Next()
 		fmt.Print("custom handler works")
 		for _, ginErr := range c.Errors {
 			customErr := &Error{
@@ -33,7 +34,6 @@ func GlobalErrorHandler(customErrorParser CustomParserType) gin.HandlerFunc {
 			messages = append(messages, customErr)
 		}
 
-		c.Next()
 		errorsList := customErrorParser(messages)
 
 		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]interface{}{"errors": &errorsList})
