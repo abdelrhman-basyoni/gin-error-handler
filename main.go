@@ -1,13 +1,7 @@
 // Package ginErrorHandler provides a global error handler middleware for the Gin web framework.
 // It collects error messages from Gin errors and responds with a JSON payload containing
 // the error messages.
-package ginErrorHandler
-
-import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
-)
+package ginHandler
 
 // GlobalErrorHandler is a middleware for Gin that collects error messages from Gin errors
 // and responds with a JSON payload containing the error messages.
@@ -22,17 +16,22 @@ import (
 //	r.Use(ginErrorHandler.GlobalErrorHandler("errors"))
 //	// ...
 //	r.Run(":8080")
-func GlobalErrorHandler(errorKey string) gin.HandlerFunc {
-	var messages []string
 
-	return func(c *gin.Context) {
+func GlobalErrorHandler(errorKey string) HandlerFunc {
+	var messages []string
+	var statusCode = 500
+	return func(c *Context) {
 		// Iterate through Gin errors and convert them to your custom Error type
 		c.Next()
 
 		for _, ginErr := range c.Errors {
 			messages = append(messages, ginErr.Error())
+			if ginErr.code != nil {
+				statusCode = *ginErr.code
+			}
+
 		}
 
-		c.AbortWithStatusJSON(http.StatusBadRequest, map[string]interface{}{errorKey: &messages})
+		c.AbortWithStatusJSON(statusCode, map[string]interface{}{errorKey: &messages})
 	}
 }
