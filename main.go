@@ -18,9 +18,8 @@ import "github.com/gin-gonic/gin"
 //	r.Use(ginErrorHandler.GlobalErrorHandler("errors"))
 //	// ...
 //	r.Run(":8080")
-type HandlerFunc func(c *gin.Context)
 
-func GlobalErrorHandler(errorKey string) HandlerFunc {
+func GlobalErrorHandler(errorKey string) gin.HandlerFunc {
 	var messages []string
 	var statusCode = 500
 	return func(c *gin.Context) {
