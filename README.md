@@ -85,6 +85,11 @@ For questions or feedback, please contact:
 - Email: abdelrhman.mbasyoni@gmail.com
 - GitHub: [GitHub Profile](https://github.com/abdelrhman-basyoni)
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
 ## Acknowledgments
 
 Special thanks to the Gin web framework community and contributors.
