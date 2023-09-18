@@ -30,7 +30,7 @@ func GlobalErrorHandler(errorKey string) gin.HandlerFunc {
 
 			messages = append(messages, ginErr.Error())
 		}
-
+		c.Errors = nil
 		c.AbortWithStatusJSON(statusCode, map[string]interface{}{errorKey: &messages})
 	}
 }
