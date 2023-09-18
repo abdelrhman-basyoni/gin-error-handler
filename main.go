@@ -22,10 +22,11 @@ import "github.com/gin-gonic/gin"
 func GlobalErrorHandler(errorKey string) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
+		c.Next()
 		var messages []string
 		var statusCode = 500
 		// Iterate through Gin errors and convert them to your custom Error type
-		c.Next()
+
 
 		for _, ginErr := range c.Errors {
 
