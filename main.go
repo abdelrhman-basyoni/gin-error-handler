@@ -20,9 +20,10 @@ import "github.com/gin-gonic/gin"
 //	r.Run(":8080")
 
 func GlobalErrorHandler(errorKey string) gin.HandlerFunc {
-	var messages []string
-	var statusCode = 500
+
 	return func(c *gin.Context) {
+		var messages []string
+		var statusCode = 500
 		// Iterate through Gin errors and convert them to your custom Error type
 		c.Next()
 
@@ -30,7 +31,7 @@ func GlobalErrorHandler(errorKey string) gin.HandlerFunc {
 
 			messages = append(messages, ginErr.Error())
 		}
-		c.Errors = nil
+
 		c.AbortWithStatusJSON(statusCode, map[string]interface{}{errorKey: &messages})
 	}
 }
